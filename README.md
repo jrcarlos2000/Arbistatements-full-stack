@@ -1,6 +1,8 @@
 # **Arbistatements** - Arbitrum Hackathon, Bogota.
 ## What is Arbistatements ? 
 Arbistatements lets you create Crypto statments using ZK without revealing your identity on those statements. It is powered by the semaphore , which uses Zero Knowledge to prove that users are part of a group and send signals anonymously. The Protocol receives funds from users who want to generate **Arbistatements**, and these funds are invested in lending platforms such as aave. 
+
+**Please visit [Contract Repo](https://github.com/jrcarlos2000/Arbistatements-full-stack)**
 ## How it works ?
 - Users join our protocol by paying a small fee , one per address.
 - Users link each address to their identity commitment
@@ -29,3 +31,13 @@ Semaphore contract has been deployed to: 0x2686540BE833cFB49F1D8BEa13F7c0E46767F
 //main contract here :
 Arbistatements contract has been deployed to: 0xe9F49bE29195AFa0BDB483561D547C36f8be5045
 ```
+
+## Development
+1. Create your .env file by using the example ( variables are provided except for private keys)
+
+2. ```cd backend``` && ```yarn dev```
+
+3. ```cd frontend``` && ```yarn dev```
+
+4. Have fun
+
