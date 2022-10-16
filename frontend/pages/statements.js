@@ -90,7 +90,7 @@ const Statements = () => {
 
       const fullProof = await generateProof(identity, group, BigInt(42), signal)
 
-      const data = await axios.post("http://127.0.0.1:9002/get-statemnt", {
+      const data = await axios.post("http://127.0.0.1:9002/get-statement-v1", {
         signal,
         solidityProof :  packToSolidityProof(fullProof.proof),
         nullifierHash : fullProof.publicSignals.nullifierHash,

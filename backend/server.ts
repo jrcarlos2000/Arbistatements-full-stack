@@ -39,9 +39,7 @@ const logger = new winston.createLogger(myWinstonOptions);
 const ethereumPrivateKey = process.env.ETHEREUM_PRIVATE_KEY;
 
 const serverProviders: any = {
-  "80001": new providers.JsonRpcProvider(process.env.MUMBAI_RPC!),
-  "420": new providers.JsonRpcProvider(process.env.OPTIMISM_RPC!),
-  "1297": new providers.JsonRpcProvider(process.env.BOBA_RPC!),
+  "421613": new providers.JsonRpcProvider(process.env.ARBITRUM_RPC!),
   "1337": new providers.JsonRpcProvider(process.env.LOCALHOST_RPC),
 };
 const app: Express = express();
@@ -102,8 +100,8 @@ app.post("/join-protocol", async (req: Request, res: Response) => {
     res.status(500).end();
   }
 });
-
-app.post("/get-statemnt", async (req: Request, res: Response) => {
+//this one takes a different approach
+app.post("/get-statement-v1", async (req: Request, res: Response) => {
   const { identityCommitment, params, name, passNum, address, chainId } =
     req.body;
   try {
@@ -155,7 +153,7 @@ app.post("/get-statemnt", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/get-statement", async (req: Request, res: Response) => {
+app.post("/get-statement-v2", async (req: Request, res: Response) => {
   const { signal,solidityProof,nullifierHash, merkleRoot, chainId, identityCommitment } = req.body;
   try {
     let thisContract = new Contract(
