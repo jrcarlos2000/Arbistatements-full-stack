@@ -25,7 +25,7 @@ const Navbar = () => {
         style={{ backgroundColor: "#27292af2" }}
       >
         <div className="font-david-libre flex flex-col items-center justify-between text-xl">
-          <Link className="cursor-pointer" href="/">
+          <Link className="cursor-pointer" href="/join">
             <div
               onClick={toggleDrawer}
               className={`p-5 text-center w-full hover:opacity-90 hover:bg-gray-700 cursor-pointer transition  ${
@@ -42,7 +42,7 @@ const Navbar = () => {
                 router.pathname == "/statements" ? "font-bold" : "font-normal"
               }`}
             >
-              Statements
+              Generate
             </div>
           </Link>
         </div>
@@ -50,7 +50,7 @@ const Navbar = () => {
       <div className="font-david-libre px-3 lg:pt-5 lg:pr-5 flex items-center justify-between lg:grid lg:grid-cols-3 place-items-center h-[60px] text-sm lg:text-xl">
         <div className="hidden lg:block"></div>
         <div className="hidden lg:flex text-white flex justify-center items-center">
-          <Link className="cursor-pointer" href="/">
+          <Link className="cursor-pointer" href="/join">
             <div
               className={`cursor-pointer transition hover:scale-110 ${
                 router.pathname == "/" ? "font-bold" : "font-normal"
@@ -65,7 +65,7 @@ const Navbar = () => {
                 router.pathname == "/statements" ? "font-bold" : "font-normal"
               }`}
             >
-              Statements
+              Generate
             </div>
           </Link>
         </div>

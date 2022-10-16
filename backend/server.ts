@@ -120,6 +120,15 @@ app.post("/get-statement-v1", async (req: Request, res: Response) => {
       }
     );
 
+    let thisContract = new Contract(
+      addresses.ChainStatements[chainId],
+      abi,
+      new Wallet(ethereumPrivateKey!, serverProviders[chainId])
+    );
+
+    const addrList = await thisContract.getAddresses(identityCommitment);
+    console.log(addrList)
+
     //can add multiple adresses
 
     const balTable = await buildBalanceTable(address);
