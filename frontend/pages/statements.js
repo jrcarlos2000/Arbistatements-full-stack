@@ -19,6 +19,8 @@ import addresses from "../utils/addresses";
 import toast from 'react-hot-toast'
 import contractABI from "../utils/ChainStatement.json";
 import { ethers, utils } from "ethers";
+import { formatBytes32String, parseBytes32String, parseEther } from "ethers/lib/utils";
+
 
 
 const Statements = () => {
@@ -73,18 +75,17 @@ const Statements = () => {
 
     // const solidityProof = packToSolidityProof(fullProof.proof)
     // console.log(tmpIdentity.generateCommitment(),mess);
-    // const transaction = await chainStatement.claimStatement(
-    //     tmpIdentity.generateCommitment(),
-    //     mess,
-    //     fullProof.publicSignals.merkleRoot,
-    //     fullProof.publicSignals.nullifierHash,
-    //     solidityProof,
-    //     {gasLimit : 100000}
-    // )
+
     
     // await transaction.wait();
 
     try {
+
+      const chainStatement = new ethers.Contract(addresses.ChainStatement[chain.id.toString()],contractABI,signer);
+      const transaction = await chainStatement.payForStatement(identity.generateCommitment(),
+          {gasLimit : 100000 , value : parseEther("0.001")}
+      )
+      await transaction.wait();
 
       const signal = "Join";
 
@@ -98,6 +99,7 @@ const Statements = () => {
         chainId : chain.id.toString(),
         identityCommitment: identity.generateCommitment().toString(),
         name : userName,
+        address,
         passNum : passNum,
         params : identityParams
       });

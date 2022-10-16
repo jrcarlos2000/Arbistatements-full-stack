@@ -19,7 +19,7 @@ async function saveTablesToPDF(
   });
   doc.fontSize(20);
   doc.font('Times-Roman')
-   .text(`Ethereum statements - ${name} - ID : ${passNum}`, {
+   .text(`Arbistatements - ${name} - ID : ${passNum}`, {
     lineGap: 20
    })
    .moveDown(0.5);

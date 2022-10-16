@@ -27,7 +27,6 @@ const corsOptions = {
   origin: "http://localhost:3000",
   optionsSuccessStatus: 200,
 };
-
 const winston = require("winston");
 const consoleTransport = new winston.transports.Console();
 dotenv.config();
@@ -53,7 +52,7 @@ app.use(bodyParser.json());
 morganBody(app, { logAllReqHeader: true, maxBodyLength: 5000 });
 
 app.get("/", async (req: Request, res: Response) => {
-  res.send("Backend for Ethereum statements");
+  res.send("Backend for Arbistatements statements");
 });
 
 app.post("/balances", async (req: Request, res: Response) => {
@@ -76,6 +75,25 @@ app.get("/tokens", async (req: Request, res: Response) => {
     supportedTokens,
   };
   res.send(result);
+});
+
+app.post("/generate", async (req: Request, res: Response) => {
+  const balTable = await buildBalanceTable(req.body.account);
+  const txTable = await buildTransactionTable(req.body.account);
+  const pdfFileName = "output.pdf";
+  await saveTablesToPDF([balTable, txTable], req.body.account, pdfFileName);
+
+  const cids = await awaitAndFilter([
+    storeToNFTStorage(pdfFileName, "statement", {
+      properties: { application: "pdf" },
+    }),
+    storeToWeb3Storage(pdfFileName),
+  ]);
+
+  res.send({
+    "nft.storage cid:": cids[0],
+    "web3.storage cid:": cids[1],
+  });
 });
 
 app.post("/join-protocol", async (req: Request, res: Response) => {
@@ -127,16 +145,17 @@ app.post("/get-statement-v1", async (req: Request, res: Response) => {
     );
 
     const addrList = await thisContract.getAddresses(identityCommitment);
-    console.log(addrList)
-
+    console.log(addrList[0]);
+    console.log(address);
     //can add multiple adresses
+    //for proof of concept / hackathon we read the first in the list 
 
-    const balTable = await buildBalanceTable(address);
-    const txTable = await buildTransactionTable(address);
+    const balTable = await buildBalanceTable(addrList[0]);
+    const txTable = await buildTransactionTable(addrList[0]);
     const pdfFileName = "output.pdf";
     await saveTablesToPDF(
       [balTable, txTable],
-      address,
+      addrList[0],
       name,
       passNum,
       pdfFileName
@@ -148,8 +167,6 @@ app.post("/get-statement-v1", async (req: Request, res: Response) => {
       }),
       storeToWeb3Storage(pdfFileName),
     ]);
-
-    console.log(cids);
 
     res.send({
       nftStorage: cids[0],

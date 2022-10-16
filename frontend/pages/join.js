@@ -13,7 +13,7 @@ import Head from "next/head";
 import axios from "axios";
 import { ethers } from 'ethers';
 import { Layout } from "../components/Layout";
-import { formatBytes32String, parseBytes32String } from "ethers/lib/utils";
+import { formatBytes32String, parseBytes32String, parseEther } from "ethers/lib/utils";
 import { Identity } from "@semaphore-protocol/identity"
 import addresses from "../utils/addresses";
 import contractABI from "../utils/ChainStatement.json";
@@ -65,8 +65,15 @@ export default function Home() {
 
     let identity = new Identity(identityParams);
     console.log("DEBUG : ", identityParams);
-    console.log(process.env.RELAY_URL)
+    console.log(process.env.RELAY_URL);
+
+    
     try {
+      const chainStatement = new ethers.Contract(addresses.ChainStatement[chain.id.toString()],contractABI,signer);
+      const transaction = await chainStatement.joinProtocolWithFee(
+          {gasLimit : 100000 , value : parseEther("0.001")}
+      )
+      await transaction.wait();
       const data = await axios.post("http://127.0.0.1:9002/join-protocol", {
         identityCommitment: identity.generateCommitment().toString(),
         params : identityParams,

@@ -148,6 +148,13 @@ export const abi = [
   },
   {
     "inputs": [],
+    "name": "joinProtocolWithFee",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "owner",
     "outputs": [
       {
@@ -157,6 +164,19 @@ export const abi = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "identityCommitment",
+        "type": "uint256"
+      }
+    ],
+    "name": "payForStatement",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
